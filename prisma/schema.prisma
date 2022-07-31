@@ -15,8 +15,20 @@ model User{
     email   String      @unique
     password    String
     isAdmin     Boolean     @map("is_admin")    @default(false)
+    refreshTokens RefreshToken[]    @relation(name: "refresh_tokens_to_users")
 
     @@map("users")
+}
+
+model RefreshToken{
+    id      String @id
+    userId  String @map("user_id")
+    token   String @unique
+    expiryDate  Int @map("expiry_date")
+    user    User @relation(name: "refresh_tokens_to_users", fields: [userId], references: [id])
+
+    @@index(token)
+    @@map("refresh_tokens")
 }
 
 

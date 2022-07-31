@@ -10,7 +10,7 @@ import { User } from '../../users/entities/user.entity';
 export const CurrentUser = createParamDecorator(
   (data: unknown, host: ExecutionContext) => {
     const req = host.switchToHttp().getRequest();
-    const { user } = req.user;
-    return user as User;
+    const { user } = req;
+    return { id: user.userId, ...user } as User;
   },
 );
